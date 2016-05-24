@@ -124,7 +124,10 @@ dmtx_encode(PyObject *self, PyObject *arglist, PyObject *kwargs)
    if(module_size != DmtxUndefined)
       dmtxEncodeSetProp(enc, DmtxPropModuleSize, module_size);
 
-   dmtxEncodeDataMatrix(enc, data_size, (unsigned char *)data);
+   if(dmtxEncodeDataMatrix(enc, data_size, (unsigned char *)data) == DmtxFail) {
+      PyErr_SetString(PyExc_ValueError, "Failed to encode input string.");
+      return NULL;   
+   }
 
    if((start_cb != NULL) && PyCallable_Check(start_cb)) {
       args = Py_BuildValue("(iiO)", enc->image->width, enc->image->height, context);
