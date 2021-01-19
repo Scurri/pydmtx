@@ -97,6 +97,8 @@ dmtx_encode(PyObject *self, PyObject *arglist, PyObject *kwargs)
          &shape, &plotter, &start_cb, &finish_cb, &context))
       return NULL;
 
+   Py_DECREF(filtered_kwargs);
+
    Py_INCREF(context);
 
    /* Plotter is required, and must be callable */
